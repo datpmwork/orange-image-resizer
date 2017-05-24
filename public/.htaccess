@@ -5,6 +5,11 @@
 
     RewriteEngine On
 
+    RewriteEngine on
+    RewriteCond %{HTTP_HOST} ^maper-image.ivivi.vn [NC,OR]
+    RewriteCond %{HTTP_HOST} ^www.maper-image.ivivi.vn [NC]
+    RewriteRule ^(.*)$ http://orange.ivivi.vn/$1 [L,R=301,NC]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]

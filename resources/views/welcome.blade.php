@@ -4,13 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" type="image/png" href="https://orange.ivivi.vn/favico.png"/>
     <title>Orange - Image Processor</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('semantic/semantic.min.css') }}">
     <!-- Styles -->
+    <meta name="og:title" content="Orange - Simple Image Editor">
+    <meta name="og:description" content="Tool xử lý hình đơn giản - Chèn Watermark - Giảm chất lượng ảnh">
+    <meta name="og:image" content="https://orange.ivivi.vn/sample.jpg">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>

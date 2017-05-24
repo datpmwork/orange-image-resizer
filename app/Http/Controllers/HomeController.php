@@ -55,13 +55,12 @@ class HomeController extends Controller
         foreach ($files as $file) {
             File::delete($file);
         }
-        session()->put('files', []);
+        session()->push('files', []);
         return response()->json([]);
     }
 
     private function _pushFile($url) {
-        $current = session('files', []);
-        $current[] = $url;
-        session()->put('files', $current);
+        if (session()->get('files', [])) session()->put('files', []);
+        Session::push('files', $url);
     }
 }

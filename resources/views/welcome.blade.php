@@ -155,12 +155,12 @@
         watch: {
             files: function(val) {
                 var _ = this;
-                var instance = axios.create({
-                    baseURL: 'http://maper-image.ivivi.vn/',
-                    timeout: 1000,
-                });
                 for (var i = 0; i < val.length; i++) {
                     if (val[i].processed == true) continue;
+                    var instance = axios.create({
+                        baseURL: 'http://maper-image.ivivi.vn/',
+                        timeout: 100000,
+                    });
                     var fd = new FormData();
                     fd.append('file', val[i].file);
                     fd.append('id', val[i].id);

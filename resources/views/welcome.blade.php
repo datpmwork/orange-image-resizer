@@ -5,15 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Orange - Image Processor</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ asset('semantic/semantic.min.css') }}">
     <!-- Styles -->
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 
@@ -34,6 +33,7 @@
                     <option value="top-left">Phía trên - Bên trái</option>
                     <option value="top-right">Phía trên - Bên phải</option>
                 </select>
+                <button class="ui button negative basic" v-on:click="deleteWatermark()" :disabled="watermark == null"><i class="icon trash"></i> Xóa</button>
             </div>
             <div class="ui segment orange">
                 <h4 class="title">Xử lý ảnh đơn giản</h4>
@@ -116,9 +116,10 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="{{ asset('semantic/semantic.min.js') }}"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/vue"></script>
+{{--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
 <script>
-
+    window.processedFiles = JSON.parse('{!! json_encode($files) !!}');
+    window.watermark = {!! $watermark == null ? 'null' : "'" . $watermark . "'"!!};
 </script>
+<script src="{{ asset('js/app.js') }}"></script>
 </html>

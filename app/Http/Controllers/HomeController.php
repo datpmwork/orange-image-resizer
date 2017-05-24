@@ -24,6 +24,15 @@ class HomeController extends Controller
         return response()->view('welcome', compact('files', 'watermark'));
     }
 
+    public function deleteWatermark(Request $request) {
+        $watermark = session()->get('watermark', null);
+        if ($watermark != null) {
+            File::delete(public_path($watermark));
+            session()->put('watermark', null);
+        }
+        return response()->json([]);
+    }
+
     public function uploadWatermark(Request $request) {
         $file = $request->file('file');
         $fileName = 'watermark-' . $request->session()->getId() . "." . $file->getClientOriginalExtension();

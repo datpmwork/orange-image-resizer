@@ -15,8 +15,7 @@ String.prototype.hashCode = function () {
     return hash;
 };
 
-require('./bootstrap');
-
+window.axios = require('axios');
 window.Vue = require('vue');
 
 /**
@@ -28,11 +27,11 @@ window.Vue = require('vue');
 const app = new Vue({
     el: '#app',
     data: {
-        processed: JSON.parse('{!! json_encode($files) !!}'),
+        processed: window.processedFiles,
         files: [],
         uploads: [],
         downloadable: false,
-        watermark: '{!! $watermark !!}',
+        watermark: window.watermark,
         watermarkPosition: 'bottom-right',
         config: {}
     },
@@ -101,6 +100,15 @@ const app = new Vue({
 
                 });
             }
+        },
+        deleteWatermark: function() {
+            var _ = this;
+            axios.create({
+                baseURL: location.origin + "/",
+                timeout: 10000
+            }).post('deleteWatermark').then(function(response) {
+                _.watermark = null;
+            });
         },
 
         /* Save Config */

@@ -1,20 +1,10 @@
-
-// Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
 h1 {
   text-align: center;
 }
 body {
   height: auto;
-  background: -webkit-linear-gradient(-9deg, rgb(76, 173, 218), rgb(59, 218, 205));
-  background: linear-gradient(-9deg, rgb(76, 173, 218), rgb(59, 218, 205));
+  background: -webkit-linear-gradient(90deg, rgb(157, 157, 157), rgb(244, 177, 71));
+  background: linear-gradient(90deg, rgb(157, 157, 157), rgb(244, 177, 71));
 }
 #app {
   width: 80%;

@@ -158,7 +158,7 @@
                 for (var i = 0; i < val.length; i++) {
                     if (val[i].processed == true) continue;
                     var instance = axios.create({
-                        baseURL: 'http://localhost:8000/',
+                        baseURL: 'http://maper-image.ivivi.vn/',
                         timeout: 100000,
                     });
                     var fd = new FormData();

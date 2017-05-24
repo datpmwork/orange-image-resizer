@@ -14,5 +14,6 @@
 Route::get('/', 'HomeController@index');
 
 Route::post('upload', 'HomeController@upload');
+Route::post('uploadWatermark', 'HomeController@uploadWatermark');
 Route::get('download', 'HomeController@download');
 Route::get('delete', 'HomeController@delete');

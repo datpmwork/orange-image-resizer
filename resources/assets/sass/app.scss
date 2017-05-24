@@ -7,3 +7,78 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+h1 {
+  text-align: center;
+}
+body {
+  height: auto;
+  background: -webkit-linear-gradient(-9deg, rgb(76, 173, 218), rgb(59, 218, 205));
+  background: linear-gradient(-9deg, rgb(76, 173, 218), rgb(59, 218, 205));
+}
+#app {
+  width: 80%;
+  margin: auto;
+}
+
+.image-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.image.loading {
+  width: 100px !important;
+  height: auto;
+}
+
+.image-wrapper.processing:after {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  content: 'Đang xử lý';
+  color: white;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+span.count {
+  background-color: orange;
+  padding: 5px;
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.preview-setting {
+  background-image: url('../sample.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.preview-setting img {
+  position: absolute;
+  width: 100px;
+  height: auto;
+}
+.preview-setting img.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+.preview-setting img.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+.preview-setting img.top-right {
+  top: 0;
+  right: 0;
+}
+.preview-setting img.top-left {
+  top: 0;
+  left: 0;
+}

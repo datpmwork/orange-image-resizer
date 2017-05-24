@@ -6,7 +6,9 @@ use App\Photo;
 use Chumper\Zipper\Facades\Zipper;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class HomeController extends Controller
@@ -17,22 +19,57 @@ class HomeController extends Controller
         $files = array_map(function($file) {
             return ["src" => asset($file), "processed" => true, "processing" => false];
         }, $files);
-        return view('welcome', compact('files'));
+
+        $watermark = session()->get('watermark', null);
+        return response()->view('welcome', compact('files', 'watermark'));
+    }
+
+    public function uploadWatermark(Request $request) {
+        $file = $request->file('file');
+        $fileName = 'watermark-' . $request->session()->getId() . "." . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $fileName);
+        session()->put('watermark', 'images/' . $fileName);
+        return response()->json(session('watermark'));
     }
 
     public function upload(Request $request) {
+        $config = json_decode(Cookie::get('config'));
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $destName = public_path('images/' . $file->getClientOriginalName());
-            $img = Image::make($file->getRealPath())->resize(500, null, function($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })->insert(base_path('maper.png'), 'bottom-right')->save($destName, 100);
+            $resultFileName = 'images/' . $file->getClientOriginalName();
 
-            $this->_pushFile($request, 'images/' . $file->getClientOriginalName());
+            # Xu ly trung file
+            if (File::exists(public_path($resultFileName))) {
+                $resultFileName = 'images/' . str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . "-"
+                    . Str::random(5) . "." .$file->getClientOriginalExtension();
+            }
+
+            $destName = public_path($resultFileName);
+            $img = Image::make($file->getRealPath());
+
+            if ($config->size) {
+                $img->resize($config->size->width, $config->size->height, function($constraint) use ($config) {
+                    if ($config->size->ratio == 'keep-ratio') {
+                        $constraint->aspectRatio();
+                    }
+                });
+            }
+
+            if ($config->watermark && session('watermark', null) != null) {
+                $watermark = session('watermark', null);
+                $img->insert(public_path($watermark), isset($config->watermark->position) ? $config->watermark->position : 'bottom-right');
+            }
+
+            if ($config->size) {
+                $img->save($destName, $config->size->quality);
+            } else {
+                $img->save($destName, 100);
+            }
+
+            $this->_pushFile($request, $resultFileName);
 
             return response()->json([
-                "url" =>  asset('images/' . $file->getClientOriginalName()),
+                "url" =>  asset($resultFileName),
                 "id" => $request->get("id")
             ]);
         }

@@ -27,7 +27,7 @@ class HomeController extends Controller
             $img = Image::make($file->getRealPath())->resize(500, null, function($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
-            })->insert(base_path('maper.png'), 'bottom-right')->save($destName);
+            })->insert(base_path('maper.png'), 'bottom-right')->save($destName, 100);
 
             $this->_pushFile($request, 'images/' . $file->getClientOriginalName());
 

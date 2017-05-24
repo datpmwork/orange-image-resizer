@@ -82,7 +82,7 @@
         </div>
 
         <div class="column">
-            <div class="preview-setting">
+            <div class="preview-setting" style="background-image: url('sample.jpg')">
                 <img :src="watermark" alt="" v-if="watermark != null" v-bind:class="[config.watermark.position]">
             </div>
         </div>

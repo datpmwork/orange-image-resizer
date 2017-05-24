@@ -160,7 +160,11 @@
                         var fd = new FormData();
                         fd.append('file', val[i].file);
                         fd.append('id', val[i].id);
-                        axios.post("upload/", fd).then(function(response) {
+                        axios({
+                            method: "POST",
+                            data: fd,
+                            url: "upload/"
+                        }).then(function(response) {
                             var item = _.files.filter(function(item){
                                 return item.id == response.data.id;
                             });

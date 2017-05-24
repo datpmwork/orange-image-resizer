@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Photo;
 use Chumper\Zipper\Facades\Zipper;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
@@ -11,8 +12,8 @@ use Intervention\Image\Facades\Image;
 class HomeController extends Controller
 {
     //
-    public function index() {
-        $files = session()->get('files', []);
+    public function index(Request $request) {
+        $files = Photo::query()->where('session', $request->session()->getId())->get(['url'])->pluck('url')->all();
         $files = array_map(function($file) {
             return ["src" => asset($file), "processed" => true, "processing" => false];
         }, $files);
@@ -37,8 +38,8 @@ class HomeController extends Controller
         }
     }
 
-    public function download() {
-        $files = session()->get('files', []);
+    public function download(Request $request) {
+        $files = Photo::query()->where('session', $request->session()->getId())->get(['url'])->pluck('url')->all();
         $files = array_map(function($file) {
             return public_path($file);
         }, $files);
@@ -47,20 +48,22 @@ class HomeController extends Controller
         return response()->download(public_path($fileName));
     }
 
-    public function delete() {
-        $files = session()->get('files', []);
+    public function delete(Request $request) {
+        $files = Photo::query()->where('session', $request->session()->getId())->get(['url'])->pluck('url')->all();
         $files = array_map(function($file) {
             return public_path($file);
         }, $files);
         foreach ($files as $file) {
             File::delete($file);
         }
-        session()->push('files', []);
+        Photo::query()->where('session', $request->session()->getId())->delete();
         return response()->json([]);
     }
 
     private function _pushFile($request, $url) {
-        if (session()->get('files', [])) session()->put('files', []);
-        $request->session()->push('files', $url);
+        Photo::create([
+            'session' => $request->session()->getId(),
+            'url' => $url
+        ]);
     }
 }

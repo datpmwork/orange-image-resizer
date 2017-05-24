@@ -11,9 +11,7 @@
 |
 */
 
-if (env('APP_ENV') == "production") {
-    URL::forceSchema("https");
-}
+use Illuminate\Support\Facades\URL;
 
 Route::get('/', 'HomeController@index');
 

@@ -28,7 +28,7 @@ class HomeController extends Controller
                 $constraint->upsize();
             })->insert(base_path('maper.png'), 'bottom-right')->save($destName);
 
-            $this->_pushFile('images/' . $file->getClientOriginalName());
+            $this->_pushFile($request, 'images/' . $file->getClientOriginalName());
 
             return response()->json([
                 "url" =>  asset('images/' . $file->getClientOriginalName()),
@@ -59,8 +59,8 @@ class HomeController extends Controller
         return response()->json([]);
     }
 
-    private function _pushFile($url) {
+    private function _pushFile($request, $url) {
         if (session()->get('files', [])) session()->put('files', []);
-        Session::push('files', $url);
+        $request->session()->push('files', $url);
     }
 }

@@ -148,6 +148,7 @@
                 var _ = this;
                 axios.get('delete').then(function() {
                     _.processed = [];
+                    _.files = [];
                     _.downloadable = false;
                 });
             }
